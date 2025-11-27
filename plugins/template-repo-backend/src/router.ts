@@ -4,6 +4,7 @@ import { z } from 'zod';
 import express from 'express';
 import Router from 'express-promise-router';
 import { templateRepoServiceRef } from './services/TemplateRepoService';
+import path from "path";
 
 export async function createRouter({
   httpAuth,
@@ -79,6 +80,12 @@ export async function createRouter({
     res.download(
       template.path,
       template.originalName.replace(/\.zip$/i, '') + '.zip',
+      (err) => {
+        if (err) {
+          console.error("Download error:", err);
+          res.status(500).send("Unable to download the file.");
+        }
+      }
     );
   });
 

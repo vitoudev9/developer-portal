@@ -5,6 +5,10 @@
 exports.up = async function (knex) {
     await knex.schema.createTable('template_storage', table => {
         table.text('id').primary();
+        table.text('category').notNullable();
+        table.text('title').notNullable();
+        table.text('description').notNullable();
+        table.text('owner').notNullable();
         table.text('filename').notNullable();
         table.text('original_name').notNullable();
         table.text('created_by').notNullable();

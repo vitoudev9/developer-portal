@@ -19,6 +19,10 @@ import { Expand } from '@backstage/types';
 
 export interface StoredTemplate {
     id: string;
+    category: string;
+    title: string;
+    description: string;
+    owner: string;
     filename: string;
     originalName: string;
     createdBy: string;
@@ -53,6 +57,10 @@ export class TemplateRepoService {
     /** Upload and store template */
     async uploadTemplate(
         input: {
+            category: string;
+            title: string;
+            description: string;
+            owner: string;
             tempFilePath: string;
             originalName: string;
             mimeType: string;
@@ -77,6 +85,10 @@ export class TemplateRepoService {
 
         const record: StoredTemplate = {
             id,
+            category: input.category,
+            title: input.title,
+            description: input.description,
+            owner: input.owner,
             filename: targetFilename,
             originalName: input.originalName,
             createdBy,
@@ -110,11 +122,16 @@ export class TemplateRepoService {
 
         const items = rows.map(row => ({
             id: row.id,
+            category: row.category,
+            title: row.title,
+            description: row.description,
+            owner: row.owner,
             filename: row.filename,
             originalName: row.original_name,
             createdBy: row.created_by,
             createdAt: row.created_at,
             path: row.path,
+
         }));
 
         return { items };
@@ -133,6 +150,10 @@ export class TemplateRepoService {
 
         return {
             id: row.id,
+            category: row.category,
+            title: row.title,
+            description: row.description,
+            owner: row.owner,
             filename: row.filename,
             originalName: row.original_name,
             createdBy: row.created_by,
