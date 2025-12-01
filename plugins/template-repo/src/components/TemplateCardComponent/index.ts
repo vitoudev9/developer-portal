@@ -1,0 +1,1 @@
+export { TemplateCardComponent } from './TemplateCardComponent';

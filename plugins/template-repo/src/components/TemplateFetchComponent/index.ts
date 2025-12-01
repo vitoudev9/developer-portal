@@ -1,0 +1,1 @@
+export { TemplateFetchComponent } from './TemplateFetchComponent';

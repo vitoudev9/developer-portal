@@ -24,7 +24,6 @@ import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
-
 import {
   AlertDisplay,
   OAuthRequestDialog,
@@ -37,6 +36,8 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
+import { TemplateRepoPage } from '@internal/backstage-plugin-template-repo';
+import { githubAuthApiRef } from '@backstage/core-plugin-api';
 
 const app = createApp({
   apis,
@@ -58,7 +59,15 @@ const app = createApp({
     });
   },
   components: {
-    SignInPage: props => <SignInPage {...props} auto providers={['guest']} />,
+    SignInPage: props => <SignInPage {...props} auto providers={[
+      'guest',
+      {
+        id: 'github-auth-provider',
+        title: 'GitHub',
+        message: 'Sign in using GitHub',
+        apiRef: githubAuthApiRef,
+      }
+    ]} />,
   },
 });
 
@@ -97,6 +106,7 @@ const routes = (
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
     <Route path="/notifications" element={<NotificationsPage />} />
+    <Route path="/template-repo" element={<TemplateRepoPage />} />
   </FlatRoutes>
 );
 
