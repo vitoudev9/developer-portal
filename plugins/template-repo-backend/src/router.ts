@@ -1,9 +1,10 @@
-import { HttpAuthService } from '@backstage/backend-plugin-api';
+import { HttpAuthService, resolvePackagePath } from '@backstage/backend-plugin-api';
 import { InputError } from '@backstage/errors';
 import { z } from 'zod';
 import express from 'express';
 import Router from 'express-promise-router';
 import { templateRepoServiceRef } from './services/TemplateRepoService';
+import multer from "multer";
 import path from "path";
 
 export async function createRouter({
@@ -15,6 +16,18 @@ export async function createRouter({
 }): Promise<express.Router> {
   const router = Router();
   router.use(express.json());
+
+  const storage = multer.diskStorage({
+    destination: function (_req, _file, cb) {
+      cb(null, 'uploads/'); // folder where files will be saved
+    },
+    filename: function (_req, file, cb) {
+      // e.g., file-1634823423.png
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+  });
+
+  const upload = multer({ storage });
 
   // Zod schema for upload request
   const uploadSchema = z.object({

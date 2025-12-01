@@ -27,7 +27,7 @@ metadata:
 spec:
   type: grpc
   lifecycle: experimental
-  owner: guests
+  owner: IT-Risk
   system: examples
   definition: |
     syntax = "proto3";
