@@ -1,0 +1,72 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: svelte-web-socket
+  title: Svelte WebSocket App
+  description: Template for creating a Svelte app with WebSocket support.
+  tags:
+    - svelte
+    - websocket
+    - frontend
+spec:
+  owner: frontend-team
+  type: website
+
+  parameters:
+    - title: Project Info
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          title: Project Name
+          description: Name of the Svelte project
+
+        websocketUrl:
+          type: string
+          title: WebSocket URL
+          description: Endpoint for WebSocket server
+          default: ws://localhost:8080/ws
+
+    - title: Repository Info
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch
+      name: Fetch Template Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        targetPath: .
+
+    - id: templating
+      name: Apply Variables
+      action: templating:json
+
+    - id: publish
+      name: Create Repo in GitHub
+      action: publish:github
+      input:
+        repoUrl: '{{ parameters.repoUrl }}'
+        defaultBranch: main
+        description: Svelte WebSocket app created using Backstage template
+
+    - id: register
+      name: Register in Backstage Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: '{{ steps.publish.output.repoContentsUrl }}'
+        catalogInfoPath: catalog-info.yaml
+
+  output:
+    links:
+      - title: Repository
+        url: '{{ steps.publish.output.repoUrl }}'

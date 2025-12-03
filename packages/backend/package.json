@@ -37,6 +37,7 @@
     "@backstage/plugin-permission-node": "^0.10.6",
     "@backstage/plugin-proxy-backend": "^0.6.8",
     "@backstage/plugin-scaffolder-backend": "^3.0.1",
+    "@backstage/plugin-scaffolder-backend-module-cookiecutter": "^0.3.17",
     "@backstage/plugin-scaffolder-backend-module-github": "^0.9.2",
     "@backstage/plugin-scaffolder-backend-module-notifications": "^0.1.16",
     "@backstage/plugin-search-backend": "^2.0.8",
