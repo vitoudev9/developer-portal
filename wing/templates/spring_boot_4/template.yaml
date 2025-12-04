@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: spring-boot-4-service
   title: Spring Boot 4 REST Service
-  description: Template for Spring Boot 4 (Java 17+) microservice.
+  description: Template for Spring Boot 4 (Java 17+) microservices.
   tags:
     - java
     - spring-boot
@@ -47,6 +47,8 @@ spec:
       action: fetch:template
       input:
         url: https://github.com/acmwchsd/spring-boot-backstage-template
+        values:
+          name: ${{ parameters.name }}
 
     # This step publishes the contents of the working directory to GitHub.
     # If you or your organization prefer another default branch name over 'main'

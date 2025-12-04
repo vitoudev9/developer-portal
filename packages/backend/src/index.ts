@@ -40,7 +40,7 @@ const kcAuthProviderModule = createBackendModule({
               const userRef = stringifyEntityRef({
                 kind: 'User',
                 // name: info.result.userinfo.sub,
-                name: info?.result.fullProfile.userinfo.name as string,
+                name: info?.result.fullProfile.userinfo.preferred_username as string,
                 namespace: DEFAULT_NAMESPACE,
               });
               return ctx.issueToken({
