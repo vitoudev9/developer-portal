@@ -1,0 +1,33 @@
+---
+# User 1
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: acmwchsd
+spec:
+  profile:
+    displayName: Visal Som
+    email: som.visal@wingbank.com.kh
+  memberOf:
+    - IT-Risk
+---
+# User 2
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: vitoudev9
+spec:
+  profile:
+    displayName: Vitou Un
+    email: vitou.un@wingbank.com.kh
+  memberOf:
+    - IT-Risk
+---
+# Group
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: IT-Risk
+spec:
+  type: team
+  children: []

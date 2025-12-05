@@ -1,0 +1,78 @@
+version: '3.8'
+services:
+  database:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: supersecret
+    volumes:
+      - backstage-db-data:/var/lib/postgresql/data\
+    ports:
+      - '5433:5432'
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - '8080:8080'
+    depends_on:
+      - keycloak-db
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: keycloak-db
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: localhost
+      KC_HTTP_ENABLED: true
+      KC_HEALTH_ENABLED: true
+    command: start-dev
+
+  keycloak-db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloak
+    volumes:
+      - keycloak-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'keycloak']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  # backstage:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: backstage-dev
+  #   depends_on:
+  #     - database
+  #     - keycloak
+  #   ports:
+  #     - '3000:3000' # frontend
+  #     - '7007:7007' # backend
+  #   environment:
+  #     NODE_ENV: development
+  #     DATABASE_CLIENT: pg
+  #     DATABASE_HOST: database
+  #     DATABASE_PORT: 5432
+  #     DATABASE_USER: postgres
+  #     DATABASE_PASSWORD: supersecret
+  #     DATABASE_NAME: backstage
+  #     AUTH_PROXY_DISABLE: 'true'
+  #   volumes:
+  #     - .:/app   # bind mount for live code changes
+  #     - /app/node_modules
+  #   command: yarn dev
+
+volumes:
+  backstage-db-data:
+  keycloak-db-data:

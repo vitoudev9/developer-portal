@@ -1,16 +1,17 @@
 apiVersion: scaffolder.backstage.io/v1beta3
-# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-template
 kind: Template
 metadata:
-  name: example-nodejs-template
-  title: Example Node.js Template
-  description: An example template for the scaffolder that creates a simple Node.js service
+  name: spring-boot-4-service
+  title: Spring Boot 4 REST Service
+  description: Template for Spring Boot 4 (Java 17+) microservices.
+  tags:
+    - java
+    - spring-boot
+    - backend
 spec:
-  owner: acmwchsd
+  owner: it-risk
   type: service
 
-  # These parameters are used to generate the input form in the frontend, and are
-  # used to gather input data for the execution of the template.
   parameters:
     - title: Fill in some steps
       required:
@@ -34,6 +35,8 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+              - gitlab.com
+              - bitbucket.com
 
   # These steps are executed in the scaffolder backend, using data that we gathered
   # via the parameters above.
@@ -43,7 +46,7 @@ spec:
       name: Fetch Base
       action: fetch:template
       input:
-        url: ./content
+        url: https://github.com/acmwchsd/spring-boot-backstage-template
         values:
           name: ${{ parameters.name }}
 
@@ -56,7 +59,7 @@ spec:
       input:
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
-        defaultBranch: 'main'
+        defaultBranch: 'master'
 
     # The final step is to register our new component in the catalog.
     - id: register
