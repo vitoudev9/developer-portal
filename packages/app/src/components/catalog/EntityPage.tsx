@@ -57,6 +57,7 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+import { PermissionAssignmentCard } from './PermissionAssignmentCard';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -65,6 +66,10 @@ const techdocsContent = (
     </TechDocsAddons>
   </EntityTechdocsContent>
 );
+
+const catalogManageContent = (
+  <PermissionAssignmentCard />
+)
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
@@ -186,6 +191,10 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
+
+    <EntityLayout.Route path='/manage' title='Manage'>
+      {catalogManageContent}
+    </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -220,6 +229,10 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path='/manage' title='Manage'>
+      {catalogManageContent}
     </EntityLayout.Route>
   </EntityLayout>
 );
